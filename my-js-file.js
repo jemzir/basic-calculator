@@ -6,7 +6,7 @@ for (let i = 0; i < 20; i +=1) {
     btn.classList.add('btn')
 };
 
-let calculatorItems ="()% 789+456x123-0.=+";
+let calculatorItems ="()% 789÷456x123-0.=+";
 
 numpad.childNodes[3].textContent = 'AC';
 
