@@ -1,0 +1,30 @@
+h1 {
+    color: red;
+    text-align: center;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+}
+
+#display {
+    background-color: beige;
+    height: 4em;
+    width: 20em;
+}
+
+#numpad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-gap: 5px;
+}
+
+.btn {
+    background-color: lightgrey;
+    width: 5em;
+    height: 3em;
+}
