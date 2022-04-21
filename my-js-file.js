@@ -22,10 +22,17 @@ const btns = document.querySelectorAll('.btn');
 btns.forEach((btn) => {
     btn.addEventListener('click', (e) => {
         if (e.target.textContent === 'AC') {
+            valuePreOp ='';
+            valuePostOp ='';
             display.textContent = '';
             return
-        }
+        } else if (!e.target.classList.contains("operator") &&
+                    !e.target.classList.contains("equalsign")) {
         display.textContent += e.target.textContent;
+        } else if (displayValue) {
+            display.textContent = '';
+            display.textContent += e.target.textContent;
+        }
     })
 })
 
@@ -44,12 +51,45 @@ btns.forEach((btn) => {
     }
 })
 
+let valuePreOp ='';
+let valuePostOp ='';
+let operatorValue ='';
 let displayValue ='';
+
+const equalsign = document.querySelector('.equalsign');
+
+const btnOperators = document.querySelectorAll('.operator')
+
+btnOperators.forEach((operator) => {
+    operator.addEventListener('click', (e) => {
+       
+        if (!display.textContent) {
+            display.textContent = 'Error';
+        } else if (e.target.textContent === "%") {
+            display.textContent = `${operate(display.textContent, 1, e.target.textContent)}`;
+        } else if (!valuePreOp) {
+            valuePreOp = display.textContent;
+            display.textContent = '';
+            operatorValue = e.target.textContent;
+        } else if (valuePreOp) {
+            valuePostOp = display.textContent;
+            display.textContent = `${operate(valuePreOp, valuePostOp, operatorValue)}`;
+        }
+        if (valuePostOp) {
+        displayValue = display.textContent;
+        }
+    })
+})
+
+equalsign.addEventListener('click', () => {
+    valuePostOp = display.textContent;
+    display.textContent = `${operate(valuePreOp, valuePostOp, operatorValue)}`;
+})
 
 function operate(num1, num2, operator) {
     switch(operator) {
         case "+":
-            return num1 + num2
+            return +num1 + +num2
         case "-":
             return num1 - num2
         case "÷":
