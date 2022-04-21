@@ -7,6 +7,7 @@ for (let i = 0; i < 20; i +=1) {
 };
 
 let calculatorItems ="()% 789÷456x123-0.=+";
+let operators ="%÷x-+";
 
 numpad.childNodes[3].textContent = 'AC';
 
@@ -17,8 +18,6 @@ for (i = 0; i < 20; i +=1) {
 }
 
 const btns = document.querySelectorAll('.btn');
-
-console.log(btns.length);
 
 btns.forEach((btn) => {
     btn.addEventListener('click', (e) => {
@@ -33,4 +32,31 @@ btns.forEach((btn) => {
 const display = document.querySelector('#display');
 display.textContent = '';
 
-console.log(display.textContent);
+numpad.childNodes[0].classList.add('parenthesis');
+numpad.childNodes[1].classList.add('parenthesis');
+
+btns.forEach((btn) => {
+    for (i = 0; i <= operators.length; i +=1)
+    if (btn.textContent === "=") {
+        btn.classList.add('equalsign')
+    } else if (btn.textContent === operators[i]) {
+        btn.classList.add('operator')
+    }
+})
+
+let displayValue ='';
+
+function operate(num1, num2, operator) {
+    switch(operator) {
+        case "+":
+            return num1 + num2
+        case "-":
+            return num1 - num2
+        case "÷":
+            return num1 / num2
+        case "x":
+            return num1 * num2
+        case "%":
+            return num1 * 0.01
+    }
+}
