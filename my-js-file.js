@@ -1,9 +1,19 @@
 const numpad = document.querySelector('#numpad');
 
+const isPrime = num => {
+    for(let i = 2, s = Math.sqrt(num); i <= s; i++)
+        if(num % i === 0) return false; 
+    return num > 1;
+}
+
 for (let i = 0; i < 20; i +=1) {
     const btn = document.createElement('div');
     numpad.appendChild(btn);
     btn.classList.add('btn')
+
+    if (!isPrime(i) && i > 3 && i < 15 || i === 5 || i === 13 || i === 16) {
+        btn.classList.add('number');
+    }
 };
 
 let calculatorItems ="()% 789÷456x123-0.=+";
@@ -24,6 +34,8 @@ btns.forEach((btn) => {
         if (e.target.textContent === 'AC') {
             valuePreOp ='';
             valuePostOp ='';
+            operatorValue='';
+            displayValue='';
             display.textContent = '';
             return
         } else if (!e.target.classList.contains("operator") &&
@@ -71,9 +83,12 @@ btnOperators.forEach((operator) => {
             valuePreOp = display.textContent;
             display.textContent = '';
             operatorValue = e.target.textContent;
-        } else if (valuePreOp) {
+        } else if (valuePreOp && operatorValue) {
             valuePostOp = display.textContent;
             display.textContent = `${operate(valuePreOp, valuePostOp, operatorValue)}`;
+            operatorValue ='';
+            valuePreOp = display.textContent;
+            valuePostOp='';
         }
         if (valuePostOp) {
         displayValue = display.textContent;
@@ -84,6 +99,7 @@ btnOperators.forEach((operator) => {
 equalsign.addEventListener('click', () => {
     valuePostOp = display.textContent;
     display.textContent = `${operate(valuePreOp, valuePostOp, operatorValue)}`;
+    valuePreOp = display.textContent;
 })
 
 function operate(num1, num2, operator) {
