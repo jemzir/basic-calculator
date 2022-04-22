@@ -36,15 +36,8 @@ btns.forEach((btn) => {
             valuePreOp ='';
             valuePostOp ='';
             operatorValue='';
-            displayValue='';
             display.textContent = '';
             return
-        } else if (!e.target.classList.contains("operator") &&
-                    !e.target.classList.contains("equalsign")) {
-        display.textContent += e.target.textContent;
-        } else if (displayValue) {
-            display.textContent = '';
-            display.textContent += e.target.textContent;
         }
     })
 })
@@ -67,7 +60,6 @@ btns.forEach((btn) => {
 let valuePreOp ='';
 let valuePostOp ='';
 let operatorValue ='';
-let displayValue ='';
 
 const equalsign = document.querySelector('.equalsign');
 
@@ -81,6 +73,7 @@ btnOperators.forEach((operator) => {
             display.textContent = `${operate(display.textContent, 1, e.target.textContent)}`;
             operatorValue ='';
             valuePreOp = display.textContent;
+            clearNow = true;
         } else if (!valuePreOp) {
             valuePreOp = display.textContent;
             display.textContent = '';
@@ -90,6 +83,7 @@ btnOperators.forEach((operator) => {
             display.textContent = `${operate(valuePreOp, valuePostOp, operatorValue)}`;
             operatorValue = e.target.textContent;
             valuePreOp = display.textContent;
+            clearNow = true;
         } else if (!operatorValue) {
             valuePreOp = display.textContent;
             display.textContent = '';
@@ -98,12 +92,28 @@ btnOperators.forEach((operator) => {
     })
 })
 
+let clearNow = true;
+
+function clearDisplay() {
+    if (clearNow) {
+        display.textContent ='';
+    } clearNow = false;
+}
+
 const nums = document.querySelectorAll('.number');
 nums.forEach((num) => {
     num.addEventListener('click', (e) => {
-        if (valuePreOp || !operatorValue) {
-            display.textContent ='';
+        if (!valuePreOp && !operatorValue && !valuePostOp) {
+            clearDisplay();
             display.textContent += e.target.textContent;
+        } else if (valuePreOp && !valuePostOp && operatorValue) {
+            display.textContent += e.target.textContent;
+        } else if (valuePreOp && operatorValue && valuePostOp) {
+            clearDisplay();
+            display.textContent += e.target.textContent;;
+        } else if (valuePreOp && !operatorValue && valuePostOp) {
+            clearDisplay();
+            display.textContent += e.target.textContent;;
         }
     })
 })
@@ -113,6 +123,7 @@ equalsign.addEventListener('click', () => {
     display.textContent = `${operate(valuePreOp, valuePostOp, operatorValue)}`;
     operatorValue ='';
     valuePreOp = display.textContent;
+    clearNow = true;
 })
 
 function operate(num1, num2, operator) {
