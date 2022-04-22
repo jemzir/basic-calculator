@@ -20,6 +20,7 @@ let calculatorItems ="()% 789÷456x123-0.=+";
 let operators ="%÷x-+";
 
 numpad.childNodes[3].textContent = 'AC';
+numpad.childNodes[3].classList.add('AC');
 
 for (i = 0; i < 20; i +=1) {
     if (!numpad.childNodes[i].textContent) {
@@ -74,11 +75,12 @@ const btnOperators = document.querySelectorAll('.operator')
 
 btnOperators.forEach((operator) => {
     operator.addEventListener('click', (e) => {
-       
         if (!display.textContent) {
             display.textContent = 'Error';
         } else if (e.target.textContent === "%") {
             display.textContent = `${operate(display.textContent, 1, e.target.textContent)}`;
+            operatorValue ='';
+            valuePreOp = display.textContent;
         } else if (!valuePreOp) {
             valuePreOp = display.textContent;
             display.textContent = '';
@@ -86,12 +88,22 @@ btnOperators.forEach((operator) => {
         } else if (valuePreOp && operatorValue) {
             valuePostOp = display.textContent;
             display.textContent = `${operate(valuePreOp, valuePostOp, operatorValue)}`;
-            operatorValue ='';
+            operatorValue = e.target.textContent;
             valuePreOp = display.textContent;
-            valuePostOp='';
+        } else if (!operatorValue) {
+            valuePreOp = display.textContent;
+            display.textContent = '';
+            operatorValue = e.target.textContent;
         }
-        if (valuePostOp) {
-        displayValue = display.textContent;
+    })
+})
+
+const nums = document.querySelectorAll('.number');
+nums.forEach((num) => {
+    num.addEventListener('click', (e) => {
+        if (valuePreOp || !operatorValue) {
+            display.textContent ='';
+            display.textContent += e.target.textContent;
         }
     })
 })
@@ -99,6 +111,7 @@ btnOperators.forEach((operator) => {
 equalsign.addEventListener('click', () => {
     valuePostOp = display.textContent;
     display.textContent = `${operate(valuePreOp, valuePostOp, operatorValue)}`;
+    operatorValue ='';
     valuePreOp = display.textContent;
 })
 

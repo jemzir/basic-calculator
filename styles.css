@@ -28,3 +28,19 @@ h1 {
     width: 5em;
     height: 3em;
 }
+
+.number {
+    background-color: rgb(190, 225, 255)
+}
+
+.equalsign {
+    background-color: rgb(255, 202, 104);
+}
+
+.operator {
+    background-color: grey;
+}
+
+.AC {
+    background-color: rgb(187, 166, 166);
+}
